@@ -6,6 +6,8 @@
 	import { getOverviewStats, type SimulatorOverviewStats } from '$lib/common/storage';
 	import { onMount } from 'svelte';
 
+	const ANIMATION_STORY_URL = 'https://aavran-animation.vercel.app/';
+
 	type ActiveView = 'menu' | 'flood' | 'disaster' | 'messenger';
 
 	let activeView = $state<ActiveView>('menu');
@@ -159,15 +161,27 @@
 					</button>
 				</div>
 
-				<!-- Reference Archive button -->
+				<!-- Animation and Story button -->
 				<div class="footer-links">
-					<button
-						type="button"
+					<a
+						href={ANIMATION_STORY_URL}
+						target="_blank"
+						rel="noopener noreferrer"
 						class="ref-link"
-						onclick={() => (activeView = 'messenger')}
+						aria-label="Open Animation and Story in new tab"
 					>
-						🏛 View Reference Archive
-					</button>
+						<svg
+							class="ref-icon"
+							viewBox="0 0 24 24"
+							width="16"
+							height="16"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path d="M8 5v14l11-7z" />
+						</svg>
+						<span>Animation and Story</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -551,6 +565,10 @@
 	}
 
 	.ref-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		text-decoration: none;
 		border: 1px solid rgba(255, 255, 255, 0.22);
 		background: rgba(15, 23, 42, 0.8);
 		backdrop-filter: blur(10px);
@@ -569,8 +587,22 @@
 		color: #ffffff;
 		background: rgba(15, 23, 42, 0.95);
 		border-color: rgba(56, 189, 248, 0.5);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-		transform: translateY(-1px);
+		box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25), 0 8px 24px rgba(0, 0, 0, 0.5);
+		transform: translateY(-1px) scale(1.02);
+	}
+
+	.ref-link:active {
+		transform: translateY(0) scale(0.99);
+	}
+
+	.ref-icon {
+		flex-shrink: 0;
+		transition: transform 0.2s ease, color 0.2s ease;
+	}
+
+	.ref-link:hover .ref-icon {
+		transform: scale(1.1);
+		color: #38bdf8;
 	}
 
 	/* ======================================
